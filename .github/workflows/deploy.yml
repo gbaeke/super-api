@@ -7,6 +7,7 @@ env:
   CLUSTER_NAME: clu-pub
   RESOURCE_GROUP: rg-aks
   IMAGE_TAG: 1.0.9
+  IMAGE_NAME: super
 
 jobs:
   deploy:
@@ -17,7 +18,7 @@ jobs:
 
       - uses: azure/container-scan@v0
         with:
-          image-name: ghcr.io/gbaeke/go-template:${{ env.IMAGE_TAG }}
+          image-name: ghcr.io/gbaeke/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
           run-quality-checks: true
 
       - uses: azure/aks-set-context@v1
@@ -37,5 +38,5 @@ jobs:
           namespace: go-template
           manifests: ${{ steps.bake.outputs.manifestsBundle }}
           images: |
-            ghcr.io/gbaeke/go-template:${{ env.IMAGE_TAG }}
+            ghcr.io/gbaeke/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
           action: deploy

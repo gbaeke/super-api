@@ -5,6 +5,9 @@ on:
     types:
       - published
 
+env:
+  IMAGE_NAME: super
+
 jobs:
 
   build:
@@ -27,7 +30,7 @@ jobs:
         uses: crazy-max/ghaction-docker-meta@v2
         with:
           # basic use of this action
-          images: ghcr.io/gbaeke/go-template
+          images: ghcr.io/gbaeke/${{ env.IMAGE_NAME }}
           tags: |
             type=sha
             type=ref,event=tag

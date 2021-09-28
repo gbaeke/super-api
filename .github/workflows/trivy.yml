@@ -14,7 +14,7 @@ jobs:
       - name: Build container image
         id: build
         run:  |
-          IMAGE=gbaeke/go-template:${GITHUB_SHA}
+          IMAGE=gbaeke/super:${GITHUB_SHA}
           docker build -t ${IMAGE} .
           echo "::set-output name=image::$IMAGE"
       - name: Scan image # there will not be much to scan though 😀
