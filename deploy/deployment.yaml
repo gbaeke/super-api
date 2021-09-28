@@ -15,9 +15,8 @@ spec:
         app: super-api
     spec:
       securityContext:
-        runAsUser: 1000
-        runAsGroup: 3000
-        fsGroup: 2000
+        runAsUser: 10000
+        runAsGroup: 13000
         runAsNonRoot: true
       containers:
         - name: super-api
