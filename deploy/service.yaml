@@ -1,11 +1,11 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: go-template-service
+  name: super-api-service
 spec:
   ports:
     - port: 80
       targetPort: 8080
       protocol: TCP
   selector:
-    app: go-template
+    app: super-api

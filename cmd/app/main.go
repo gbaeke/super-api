@@ -12,14 +12,14 @@ import (
 )
 
 func main() {
-	fmt.Printf("Welcome to go-template\n\n")
+	fmt.Printf("Welcome to super api\n\n")
 
 	// flags
 	f := pflag.NewFlagSet("api", pflag.ContinueOnError)
 	// web server port
 	f.Int("port", 8080, "HTTP Port")
 	// message to print on /
-	f.String("welcome", "hello", "Welcome Message")
+	f.String("welcome", "Hello from Super API", "Welcome Message")
 	// turn request logging on or off
 	f.Bool("log", false, "Turn HTTP logging on or off")
 	// graceful server shutdown timeout; use --timeout 15s etc...

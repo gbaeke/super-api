@@ -24,13 +24,13 @@ RUN go mod download
 # Import code
 COPY ./ ./
 
-# Run tests
-RUN CGO_ENABLED=0 go test -timeout 30s -v github.com/gbaeke/go-template/pkg/api
-
 # Build the executable
 RUN CGO_ENABLED=0 go build \
 	-installsuffix 'static' \
 	-o /app ./cmd/app
+
+# Run tests
+RUN CGO_ENABLED=0 go test -timeout 30s -v github.com/gbaeke/go-template/pkg/api
 
 # STAGE 2: build the container to run
 FROM scratch AS final

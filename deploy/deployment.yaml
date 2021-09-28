@@ -1,18 +1,18 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: go-template-deployment
+  name: super-api-deployment
   labels:
-    app: go-template
+    app: super-api
 spec:
   replicas: 2
   selector:
     matchLabels:
-      app: go-template
+      app: super-api
   template:
     metadata:
       labels:
-        app: go-template
+        app: super-api
     spec:
       securityContext:
         runAsUser: 1000
@@ -20,8 +20,8 @@ spec:
         fsGroup: 2000
         runAsNonRoot: true
       containers:
-        - name: go-template
-          image: ghcr.io/gbaeke/go-template:0.0.2
+        - name: super-api
+          image: ghcr.io/gbaeke/super:0.0.2
           securityContext:
             readOnlyRootFilesystem: true
             capabilities:
