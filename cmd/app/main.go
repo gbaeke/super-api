@@ -5,7 +5,7 @@ import (
 	"os"
 	"time"
 
-	"github.com/gbaeke/go-template/pkg/api"
+	"github.com/gbaeke/super-api/pkg/api"
 	"github.com/spf13/pflag"
 	"github.com/spf13/viper"
 	"go.uber.org/zap"

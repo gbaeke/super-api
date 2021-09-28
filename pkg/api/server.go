@@ -12,7 +12,7 @@ import (
 	"github.com/gorilla/mux"
 	"go.uber.org/zap"
 
-	_ "github.com/gbaeke/go-template/pkg/api/docs"
+	_ "github.com/gbaeke/super-api/pkg/api/docs"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 	httpSwagger "github.com/swaggo/http-swagger"
 	"github.com/swaggo/swag"
