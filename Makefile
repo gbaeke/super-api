@@ -2,7 +2,7 @@
 
 REPO:=gbaeke
 TAG:=latest
-IMAGE:=$(REPO)/go-template:$(TAG)
+IMAGE:=$(REPO)/super:$(TAG)
 
 
 test:
