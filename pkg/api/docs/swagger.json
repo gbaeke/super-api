@@ -5,11 +5,11 @@
     ],
     "swagger": "2.0",
     "info": {
-        "description": "Go template",
-        "title": "go-template API",
+        "description": "Super API",
+        "title": "Super API",
         "contact": {
             "name": "Source Code",
-            "url": "https://github.com/gbaeke/go-template"
+            "url": "https://github.com/gbaeke/super-api"
         },
         "version": "0.1"
     },

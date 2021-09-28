@@ -18,12 +18,12 @@ import (
 	"github.com/swaggo/swag"
 )
 
-// @title go-template API
+// @title Super API
 // @version 0.1
-// @description Go template
+// @description Super API
 
 // @contact.name Source Code
-// @contact.url https://github.com/gbaeke/go-template
+// @contact.url https://github.com/gbaeke/super-api
 
 // @host localhost:8080
 // @BasePath /

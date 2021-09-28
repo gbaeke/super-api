@@ -3,9 +3,9 @@ host: localhost:8080
 info:
   contact:
     name: Source Code
-    url: https://github.com/gbaeke/go-template
-  description: Go template
-  title: go-template API
+    url: https://github.com/gbaeke/super-api
+  description: Super API
+  title: Super API
   version: "0.1"
 paths:
   /healthz:
