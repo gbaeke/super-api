@@ -1,0 +1,23 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: super-api-ingress
+  namespace: super-api
+  annotations:
+    kubernetes.io/ingress.class: azure/application-gateway  
+spec:
+  tls:
+  - hosts:
+    - app.20.101.7.133.nip.io
+    secretName: tls-secret
+  rules:
+  - host: app.20.101.7.133.nip.io
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: super-api-service
+            port:
+              number: 80
