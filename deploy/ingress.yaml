@@ -9,7 +9,7 @@ spec:
   tls:
   - hosts:
     - app.20.101.7.133.nip.io
-    secretName: tls-secret
+    secretName: my-tls-secret
   rules:
   - host: app.20.101.7.133.nip.io
     http:
