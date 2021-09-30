@@ -6,3 +6,16 @@ resources:
   - namespace.yaml
   - deployment.yaml
   - service.yaml
+  - ingress.yaml
+
+configMapGenerator:
+- name: super-api-config
+  files:
+  - config.toml
+
+secretGenerator:
+- name: super-api-secret
+  files:
+  - cert/tls.crt
+  - cert/tls.key
+  type: "kubernetes.io/tls"

@@ -5,7 +5,7 @@ metadata:
   labels:
     app: super-api
 spec:
-  replicas: 3
+  replicas: 2
   selector:
     matchLabels:
       app: super-api
@@ -14,10 +14,6 @@ spec:
       labels:
         app: super-api
     spec:
-      volumes:
-        - name: config
-          configMap: 
-            name: super-api-config
       securityContext:
         runAsUser: 10000
         runAsGroup: 13000
@@ -32,19 +28,10 @@ spec:
                 - all
           args: ["--port=8080"]
           ports:
-            - name: http
-              containerPort: 8080
-              protocol: TCP
+            - containerPort: 8080
           env:
-            - name: IPADDRESS
-              valueFrom:
-                fieldRef:
-                  fieldPath: status.podIP
             - name: WELCOME
-              value: "Hello from the Super API on AKS!!! IP is: $(IPADDRESS)"
-          volumeMounts:
-            - mountPath: /config
-              name: config           
+              value: "Hello from the Super API on KIND!!!"           
           resources:
               requests:
                 memory: "64Mi"
@@ -57,13 +44,13 @@ spec:
               path: /healthz
               port: 8080
             initialDelaySeconds: 5
-            periodSeconds: 15
+            periodSeconds: 5
           readinessProbe:
               httpGet:
                 path: /readyz
                 port: 8080
               initialDelaySeconds: 5
-              periodSeconds: 15
+              periodSeconds: 5
               
                 
                 
