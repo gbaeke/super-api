@@ -5,7 +5,7 @@ metadata:
   labels:
     app: super-api
 spec:
-  replicas: 3
+  replicas: 2
   selector:
     matchLabels:
       app: super-api
@@ -20,7 +20,7 @@ spec:
         runAsNonRoot: true
       containers:
         - name: super-api
-          image: gbaeke/superapi:0.2.0
+          image: gbaeke/superapi:0.1.0
           securityContext:
             readOnlyRootFilesystem: true
             capabilities:

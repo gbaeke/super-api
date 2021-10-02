@@ -60,6 +60,7 @@ func (s *Server) setupRoutes() {
 	s.router.Handle("/metrics", promhttp.Handler())
 	s.router.HandleFunc("/healthz", s.healthz)
 	s.router.HandleFunc("/readyz", s.readyz)
+	s.router.HandleFunc("/source", s.sourceIpHandler)
 	s.router.HandleFunc("/", s.indexHandler)
 	s.router.PathPrefix("/swagger/").Handler(httpSwagger.Handler(
 		httpSwagger.URL("/swagger/doc.json"),
