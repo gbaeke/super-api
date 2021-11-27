@@ -49,6 +49,35 @@
                     }
                 }
             }
+        },
+        "/state": {
+            "post": {
+                "description": "Save state to configured state store",
+                "consumes": [
+                    "application/json"
+                ],
+                "summary": "Save state",
+                "responses": {
+                    "200": {
+                        "description": "ok",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "400": {
+                        "description": "Error reading or unmarshalling request body",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "Error writing to statestore",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
         }
     }
 }

@@ -12,6 +12,7 @@ import (
 	"github.com/gorilla/mux"
 	"go.uber.org/zap"
 
+	dapr "github.com/dapr/go-sdk/client"
 	_ "github.com/gbaeke/super-api/pkg/api/docs"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 	httpSwagger "github.com/swaggo/http-swagger"
@@ -31,25 +32,34 @@ import (
 
 //Config API configuration via viper
 type Config struct {
-	Welcome string
-	Port    int
-	Log     bool
-	Timeout time.Duration
+	Welcome    string
+	Port       int
+	Log        bool
+	Timeout    time.Duration
+	Daprport   int
+	Statestore string
 }
 
 //Server struct
 type Server struct {
-	config *Config
-	logger *zap.SugaredLogger
-	router *mux.Router
+	config     *Config
+	logger     *zap.SugaredLogger
+	router     *mux.Router
+	daprClient dapr.Client
 }
 
 //NewServer creates new server
 func NewServer(config *Config, logger *zap.SugaredLogger) (*Server, error) {
+	client, err := dapr.NewClient()
+	if err != nil {
+		panic(err)
+	}
+
 	srv := &Server{
-		config: config,
-		logger: logger,
-		router: mux.NewRouter(),
+		config:     config,
+		logger:     logger,
+		router:     mux.NewRouter(),
+		daprClient: client,
 	}
 
 	return srv, nil
@@ -61,6 +71,7 @@ func (s *Server) setupRoutes() {
 	s.router.HandleFunc("/healthz", s.healthz)
 	s.router.HandleFunc("/readyz", s.readyz)
 	s.router.HandleFunc("/source", s.sourceIpHandler)
+	s.router.HandleFunc("/state", s.stateHandler)
 	s.router.HandleFunc("/", s.indexHandler)
 	s.router.PathPrefix("/swagger/").Handler(httpSwagger.Handler(
 		httpSwagger.URL("/swagger/doc.json"),

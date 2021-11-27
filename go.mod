@@ -3,7 +3,7 @@ module github.com/gbaeke/super-api
 go 1.15
 
 require (
-	github.com/alecthomas/template v0.0.0-20190718012654-fb15b899a751
+	github.com/dapr/go-sdk v1.2.0
 	github.com/gorilla/mux v1.8.0
 	github.com/prometheus/client_golang v1.9.0
 	github.com/spf13/pflag v1.0.5
