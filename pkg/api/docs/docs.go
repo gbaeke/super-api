@@ -61,6 +61,13 @@ var doc = `{
             }
         },
         "/state": {
+            "get": {
+                "description": "Read state from configured state store",
+                "consumes": [
+                    "application/json"
+                ],
+                "summary": "Read state"
+            },
             "post": {
                 "description": "Save state to configured state store",
                 "consumes": [

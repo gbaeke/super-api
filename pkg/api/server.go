@@ -67,12 +67,24 @@ func NewServer(config *Config, logger *zap.SugaredLogger) (*Server, error) {
 
 //SetupRoutes sets up routes
 func (s *Server) setupRoutes() {
+	s.logger.Infow("Enabling /metrics route")
 	s.router.Handle("/metrics", promhttp.Handler())
+
+	s.logger.Infow("Enabling /healthz and /readyz routes")
 	s.router.HandleFunc("/healthz", s.healthz)
 	s.router.HandleFunc("/readyz", s.readyz)
+
+	s.logger.Infow("Enabling /source route")
 	s.router.HandleFunc("/source", s.sourceIpHandler)
-	s.router.HandleFunc("/state", s.stateHandler)
+
+	s.logger.Infow("Enabling Dapr routes")
+	s.router.HandleFunc("/savestate", s.saveState)
+	s.router.HandleFunc("/readstate", s.readState)
+
+	s.logger.Infow("Enabling index route")
 	s.router.HandleFunc("/", s.indexHandler)
+
+	s.logger.Infow("Enabling /swagger.json route")
 	s.router.PathPrefix("/swagger/").Handler(httpSwagger.Handler(
 		httpSwagger.URL("/swagger/doc.json"),
 	))

@@ -1,0 +1,16 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"appId": "goapp",
+			"appPort": 8080,
+			"label": "daprd-debug",
+			"type": "daprd"
+		},
+		{
+			"appId": "goapp",
+			"label": "daprd-down",
+			"type": "daprd-down"
+		}
+	]
+}

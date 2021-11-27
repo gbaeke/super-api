@@ -19,7 +19,7 @@ func main() {
 	// web server port
 	f.Int("port", 8080, "HTTP Port")
 	// message to print on /
-	f.String("welcome", "Hello from Super API on Container Apps", "Welcome Message")
+	f.String("welcome", "Hello from Super API", "Welcome Message")
 	// turn request logging on or off
 	f.Bool("log", false, "Turn HTTP logging on or off")
 	// graceful server shutdown timeout; use --timeout 15s etc...

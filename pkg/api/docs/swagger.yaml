@@ -31,6 +31,11 @@ paths:
             type: boolean
       summary: Readiness probe
   /state:
+    get:
+      consumes:
+      - application/json
+      description: Read state from configured state store
+      summary: Read state
     post:
       consumes:
       - application/json

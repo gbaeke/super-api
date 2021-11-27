@@ -2,7 +2,6 @@ package api
 
 import (
 	"encoding/json"
-	"fmt"
 	"io/ioutil"
 	"net/http"
 )
@@ -20,16 +19,17 @@ type State struct {
 // @Success 200 {string} string "ok"
 // @Failure 400 {string} string "Error reading or unmarshalling request body"
 // @Failure 500 {string} string "Error writing to statestore"
-func (s *Server) stateHandler(w http.ResponseWriter, r *http.Request) {
+func (s *Server) saveState(w http.ResponseWriter, r *http.Request) {
 	if r.Method != "POST" {
 		w.WriteHeader(http.StatusMethodNotAllowed)
+		s.logger.Infow("Method not allowed on saveState", "method", r.Method)
 		return
 	}
 
 	body, err := ioutil.ReadAll(r.Body)
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
-		fmt.Fprintf(w, "Error reading request body: %v\n", err)
+		s.logger.Infow("Could not save state: error reading request body", "error", err)
 		return
 	}
 
@@ -38,7 +38,14 @@ func (s *Server) stateHandler(w http.ResponseWriter, r *http.Request) {
 	err = json.Unmarshal(body, &state)
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
-		fmt.Fprintf(w, "Error unmarshalling request body: %v\n", err)
+		s.logger.Infow("Could not save state: invalid request body", "error", err)
+		return
+	}
+
+	// return error if key or data is empty
+	if state.Key == "" || state.Data == "" {
+		w.WriteHeader(http.StatusBadRequest)
+		s.logger.Infow("Could not save state: key or data is empty", "key", state.Key, "data", state.Data)
 		return
 	}
 
@@ -46,11 +53,45 @@ func (s *Server) stateHandler(w http.ResponseWriter, r *http.Request) {
 	ctx := r.Context()
 	if err := s.daprClient.SaveState(ctx, s.config.Statestore, state.Key, []byte(state.Data)); err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
-		fmt.Fprintf(w, "Error writing to statestore: %v\n", err)
+		s.logger.Infow("Could not write to statestore", "key", state.Key)
 		return
 	} else {
 		w.WriteHeader(http.StatusOK)
-		fmt.Fprintf(w, "Successfully wrote to statestore\n")
+		s.logger.Infow("Successfully wrote to statestore", "key", state.Key)
+	}
+
+}
+
+// @Summary Read state
+// @Description Read state from configured state store
+// @Accept json
+// @Produces json
+// @Router /state [get]
+func (s *Server) readState(w http.ResponseWriter, r *http.Request) {
+	if r.Method != "GET" {
+		w.WriteHeader(http.StatusMethodNotAllowed)
+		s.logger.Infow("Method not allowed on readState", "method", r.Method)
+		return
+	}
+
+	key := r.URL.Query().Get("key")
+	if key == "" {
+		w.WriteHeader(http.StatusBadRequest)
+		s.logger.Infow("Could not read from statestore: key missing from request")
+		return
+	}
+
+	// read data from Dapr statestore
+	ctx := r.Context()
+	data, err := s.daprClient.GetState(ctx, s.config.Statestore, key)
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		s.logger.Infow("Could not read from statestore", "key", key, "error", err)
+		return
+	} else {
+		w.WriteHeader(http.StatusOK)
+		w.Write(data.Value)
+		s.logger.Infow("Successfully read from statestore", "key", key)
 	}
 
 }
