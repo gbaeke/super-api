@@ -1,6 +1,6 @@
 module github.com/gbaeke/super-api
 
-go 1.15
+go 1.16
 
 require (
 	github.com/dapr/go-sdk v1.2.0
