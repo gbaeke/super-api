@@ -28,6 +28,8 @@ func main() {
 	f.Int("daprport", 3500, "Dapr port")
 	// State store name
 	f.String("statestore", "statestore", "State store name")
+	// Pubsub nale
+	f.String("pubsub", "pubsub", "Pubsub name")
 
 	// parse flags and display help message on -help
 	err := f.Parse(os.Args[1:])

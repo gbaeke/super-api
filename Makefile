@@ -20,3 +20,6 @@ docker-push:
 
 swagger:
 	cd pkg/api ; swag init -g server.go
+
+dapr:
+	dapr run --dapr-http-port 3500 --app-id goapp --app-port 8080 ./app

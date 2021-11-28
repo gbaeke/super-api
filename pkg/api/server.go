@@ -38,6 +38,7 @@ type Config struct {
 	Timeout    time.Duration
 	Daprport   int
 	Statestore string
+	Pubsub     string
 }
 
 //Server struct
@@ -80,6 +81,8 @@ func (s *Server) setupRoutes() {
 	s.logger.Infow("Enabling Dapr routes")
 	s.router.HandleFunc("/savestate", s.saveState)
 	s.router.HandleFunc("/readstate", s.readState)
+	s.router.HandleFunc("/dapr/subscribe", s.daprSubScribe)
+	s.router.HandleFunc("/myroute", s.myRoute)
 
 	s.logger.Infow("Enabling index route")
 	s.router.HandleFunc("/", s.indexHandler)
