@@ -4,6 +4,8 @@ import (
 	"encoding/json"
 	"io/ioutil"
 	"net/http"
+
+	"go.uber.org/zap"
 )
 
 type State struct {
@@ -22,14 +24,16 @@ type State struct {
 func (s *Server) saveState(w http.ResponseWriter, r *http.Request) {
 	if r.Method != "POST" {
 		w.WriteHeader(http.StatusMethodNotAllowed)
-		s.logger.Infow("Method not allowed on saveState", "method", r.Method)
+		s.logger.Infow("Method not allowed on saveState",
+			zap.String("error", r.Method))
 		return
 	}
 
 	body, err := ioutil.ReadAll(r.Body)
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
-		s.logger.Infow("Could not save state: error reading request body", "error", err)
+		s.logger.Infow("Could not save state: error reading request body",
+			zap.Error(err))
 		return
 	}
 
@@ -38,14 +42,17 @@ func (s *Server) saveState(w http.ResponseWriter, r *http.Request) {
 	err = json.Unmarshal(body, &state)
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
-		s.logger.Infow("Could not save state: invalid request body", "error", err)
+		s.logger.Infow("Could not save state: invalid request body",
+			zap.Error(err))
 		return
 	}
 
 	// return error if key or data is empty
 	if state.Key == "" || state.Data == "" {
 		w.WriteHeader(http.StatusBadRequest)
-		s.logger.Infow("Could not save state: key or data is empty", "key", state.Key, "data", state.Data)
+		s.logger.Infow("Could not save state: key or data is empty",
+			zap.String("key", state.Key),
+			zap.String("data", state.Data))
 		return
 	}
 
@@ -53,11 +60,11 @@ func (s *Server) saveState(w http.ResponseWriter, r *http.Request) {
 	ctx := r.Context()
 	if err := s.daprClient.SaveState(ctx, s.config.Statestore, state.Key, []byte(state.Data)); err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
-		s.logger.Infow("Could not write to statestore", "key", state.Key)
+		s.logger.Infow("Could not write to statestore", zap.String("key", state.Key))
 		return
 	} else {
 		w.WriteHeader(http.StatusOK)
-		s.logger.Infow("Successfully wrote to statestore", "key", state.Key)
+		s.logger.Infow("Successfully wrote to statestore", zap.String("key", state.Key))
 	}
 
 }
@@ -70,7 +77,7 @@ func (s *Server) saveState(w http.ResponseWriter, r *http.Request) {
 func (s *Server) readState(w http.ResponseWriter, r *http.Request) {
 	if r.Method != "GET" {
 		w.WriteHeader(http.StatusMethodNotAllowed)
-		s.logger.Infow("Method not allowed on readState", "method", r.Method)
+		s.logger.Infow("Method not allowed on readState", zap.String("method", r.Method))
 		return
 	}
 
@@ -86,12 +93,13 @@ func (s *Server) readState(w http.ResponseWriter, r *http.Request) {
 	data, err := s.daprClient.GetState(ctx, s.config.Statestore, key)
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
-		s.logger.Infow("Could not read from statestore", "key", key, "error", err)
+		s.logger.Infow("Could not read from statestore", "key", key, zap.Error(err))
 		return
 	} else {
 		w.WriteHeader(http.StatusOK)
 		w.Write(data.Value)
-		s.logger.Infow("Successfully read from statestore", "key", key)
+		s.logger.Infow("Successfully read from statestore",
+			zap.String("key", key))
 	}
 
 }
