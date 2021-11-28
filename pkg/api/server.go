@@ -83,6 +83,7 @@ func (s *Server) setupRoutes() {
 	s.router.HandleFunc("/readstate", s.readState)
 	s.router.HandleFunc("/dapr/subscribe", s.daprSubScribe)
 	s.router.HandleFunc("/myroute", s.myRoute)
+	s.router.HandleFunc("/mqtt", s.mqtt)
 
 	s.logger.Infow("Enabling index route")
 	s.router.HandleFunc("/", s.indexHandler)
