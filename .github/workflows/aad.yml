@@ -21,6 +21,7 @@ jobs:
   
     - name: 'Run Azure CLI commands'
       run: |
+          az account set -s ${{ secrets.AZURE_SUBSCRIPTION_ID }}
           az account show
           az group list
           pwd
