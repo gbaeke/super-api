@@ -22,7 +22,6 @@ jobs:
     - uses: azure/setup-kubectl@v1
       with:
         version: '1.20.9' # default is latest stable
-        id: install
   
     - name: 'Run Azure CLI commands'
       run: |
