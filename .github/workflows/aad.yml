@@ -19,9 +19,8 @@ jobs:
           tenant-id: ${{ secrets.AZURE_TENANT_ID }}
           subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
 
-    - uses: azure/setup-kubectl@v1
-      with:
-        version: '1.20.9' # default is latest stable
+    - name: Kubectl installer
+      uses: azure/setup-kubectl@v1      
   
     - name: 'Run Azure CLI commands'
       run: |
