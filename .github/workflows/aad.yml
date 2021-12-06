@@ -24,6 +24,7 @@ jobs:
   
     - name: 'Run Azure CLI commands'
       run: |
+          echo $PATH
           az aks get-credentials -n clu-vn -g rg-aks
           cat ~/.kube/config
           wget https://github.com/Azure/kubelogin/releases/download/v0.0.10/kubelogin-linux-amd64.zip
