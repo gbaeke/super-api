@@ -30,7 +30,7 @@ jobs:
           # wget https://github.com/Azure/kubelogin/releases/download/v0.0.10/kubelogin-linux-amd64.zip
           # unzip kubelogin-linux-amd64.zip
           # mv ./bin/linux_amd64/kubelogin /usr/bin/
-          brew install kubelogin
+          brew install Azure/kubelogin/kubelogin
           kubelogin convert-kubeconfig -l azurecli
           cat ~/.kube/config
           kubectl get nodes          
