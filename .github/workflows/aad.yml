@@ -24,14 +24,8 @@ jobs:
   
     - name: 'Run Azure CLI commands'
       run: |
-          echo $PATH
           az aks get-credentials -n clu-vn -g rg-aks
-          # cat ~/.kube/config
-          # wget https://github.com/Azure/kubelogin/releases/download/v0.0.10/kubelogin-linux-amd64.zip
-          # unzip kubelogin-linux-amd64.zip
-          # mv ./bin/linux_amd64/kubelogin /usr/bin/
           brew install Azure/kubelogin/kubelogin
           kubelogin convert-kubeconfig -l azurecli
-          cat ~/.kube/config
           kubectl get nodes          
     
