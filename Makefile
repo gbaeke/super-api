@@ -26,3 +26,6 @@ dapr-mqtt:
 
 dapr:
 	dapr run --dapr-http-port 3500 --app-id goapp --app-port 8080 ./app
+
+dapr2:
+	PORT=8081 dapr run --dapr-http-port 3501 --app-id goapp2 --app-port 8081 ./app

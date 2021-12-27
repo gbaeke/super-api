@@ -78,6 +78,9 @@ func (s *Server) setupRoutes() {
 	s.logger.Infow("Enabling /source route")
 	s.router.HandleFunc("/source", s.sourceIpHandler)
 
+	s.logger.Infow("Enabling /call route")
+	s.router.HandleFunc("/call", s.callMethod)
+
 	s.logger.Infow("Enabling Dapr routes")
 	s.router.HandleFunc("/savestate", s.saveState)
 	s.router.HandleFunc("/readstate", s.readState)
