@@ -60,7 +60,8 @@ func (s *Server) saveState(w http.ResponseWriter, r *http.Request) {
 	ctx := r.Context()
 	if err := s.daprClient.SaveState(ctx, s.config.Statestore, state.Key, []byte(state.Data)); err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
-		s.logger.Infow("Could not write to statestore", zap.String("key", state.Key))
+		s.logger.Infow("Could not write to statestore", zap.String("key", state.Key),
+			zap.String("statestore", s.config.Statestore))
 		return
 	} else {
 		w.WriteHeader(http.StatusOK)
