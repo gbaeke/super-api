@@ -1,7 +1,7 @@
 apiVersion: v2
-name: go-template
-description: A Helm chart for go-template
+name: super-api
+description: A Helm chart for super-api
 
 type: application
 version: 0.1.0
-appVersion: 0.0.2
+appVersion: 1.0.5
