@@ -1,0 +1,5 @@
+{
+    "yaml.schemas": {
+        "https://json.schemastore.org/github-workflow.json": "file:///home/gbaeke/projects/go/super-api/.github/workflows/deploy.yml"
+    }
+}
