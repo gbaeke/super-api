@@ -58,6 +58,7 @@ jobs:
           push: true
           cache-from: type=gha,src=/tmp/.buildx-cache
           cache-to: type=gha,mode=max,dest=/tmp/.buildx-cache
+          labels: ${{ steps.meta.outputs.labels }}
 
       - name: Get the version
         id: get_version
