@@ -26,8 +26,8 @@ jobs:
             ${{ runner.os }}-buildx-
         
       - name: Docker meta
-        id: docker_meta
-        uses: crazy-max/ghaction-docker-meta@v2
+        id: meta
+        uses: docker/metadata-action@v3
         with:
           # basic use of this action
           images: ghcr.io/gbaeke/${{ env.IMAGE_NAME }}
@@ -52,12 +52,12 @@ jobs:
       - name: Build and push image
         uses: docker/build-push-action@v2
         with:
-          tags: ${{ steps.docker_meta.outputs.tags }} 
+          tags: ${{ steps.meta.outputs.tags }} 
           file: ./Dockerfile
           builder: ${{ steps.buildx.outputs.name }}
           push: true
-          cache-from: type=local,src=/tmp/.buildx-cache
-          cache-to: type=local,mode=max,dest=/tmp/.buildx-cache
+          cache-from: type=gha,src=/tmp/.buildx-cache
+          cache-to: type=gha,mode=max,dest=/tmp/.buildx-cache
 
       - name: Get the version
         id: get_version
