@@ -81,6 +81,9 @@ func (s *Server) setupRoutes() {
 	s.logger.Infow("Enabling /call route")
 	s.router.HandleFunc("/call", s.callMethod)
 
+	s.logger.Infow("Enabling /flaky route")
+	s.router.HandleFunc("/flaky", s.flakyHandler)
+
 	s.logger.Infow("Enabling Dapr routes")
 	s.router.HandleFunc("/savestate", s.saveState)
 	s.router.HandleFunc("/readstate", s.readState)
@@ -90,6 +93,9 @@ func (s *Server) setupRoutes() {
 
 	s.logger.Infow("Enabling index route")
 	s.router.HandleFunc("/", s.indexHandler)
+
+	s.logger.Infow("Enabling auth route")
+	s.router.HandleFunc("/auth", s.authHandler)
 
 	s.logger.Infow("Enabling /swagger.json route")
 	s.router.PathPrefix("/swagger/").Handler(httpSwagger.Handler(
