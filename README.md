@@ -1,3 +1,3 @@
 # Super API
 
-This needs some more work... 😉
+Developer Tools for AKS sample branch
