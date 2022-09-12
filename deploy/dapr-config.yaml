@@ -1,0 +1,13 @@
+apiVersion: dapr.io/v1alpha1
+kind: Configuration
+metadata:
+  name: auth
+spec:
+  tracing:
+    samplingRate: "1"
+  httpPipeline:
+    handlers:
+    - name: myauth
+      type: middleware.http.oauth2
+  mtls:
+    enabled: true

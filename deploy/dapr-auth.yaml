@@ -1,0 +1,26 @@
+apiVersion: dapr.io/v1alpha1
+kind: Component
+metadata:
+  name: myauth
+spec:
+  type: middleware.http.oauth2
+  version: v1
+  metadata:
+  - name: clientId
+    value: "8e3c8b1f-706c-4d11-9d88-061694f29819"
+  - name: clientSecret
+    value: "8aS8Q~jcWRT3YUbghXQXs-HnF_bYPF~4gC693aNb"
+  - name: authURL
+    value: "https://login.microsoftonline.com/484588df-21e4-427c-b2a5-cc39d6a73281/oauth2/authorize"
+  - name: tokenURL
+    value: "https://login.microsoftonline.com/484588df-21e4-427c-b2a5-cc39d6a73281/oauth2/token"
+  - name: redirectURL
+    value: "https://app.20.103.17.249.nip.io"
+  - name: authHeaderName
+    value: "authorization"
+    # forceHTTPS:
+    # This key is used to set HTTPS schema on redirect to your API method
+    # after Dapr successfully received Access Token from Identity Provider.
+    # By default, Dapr will use HTTP on this redirect.
+  - name: forceHTTPS
+    value: "true"

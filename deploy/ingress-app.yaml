@@ -1,8 +1,8 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: nginx-ingress
-  namespace: ingress-nginx
+  name: super-api-ingress
+  namespace: default
   annotations:
     nginx.ingress.kubernetes.io/rewrite-target: /
 spec:
@@ -10,7 +10,7 @@ spec:
   tls:
     - hosts:
       - app.20.103.17.249.nip.io
-      secretName: tls-secret  
+      secretName: tls-secret 
   rules:
   - host: app.20.103.17.249.nip.io
     http:
@@ -19,6 +19,6 @@ spec:
         path: "/"
         backend:
           service:
-            name: nginx-ingress-dapr
+            name: super-api-dapr
             port: 
               number: 80

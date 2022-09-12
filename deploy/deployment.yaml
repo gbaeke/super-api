@@ -5,7 +5,7 @@ metadata:
   labels:
     app: super-api
 spec:
-  replicas: 3
+  replicas: 1
   selector:
     matchLabels:
       app: super-api
@@ -13,18 +13,21 @@ spec:
     metadata:
       labels:
         app: super-api
+      annotations:
+        dapr.io/enabled: "true"
+        dapr.io/app-id: "super-api"
+        dapr.io/app-port: "8080"
+        #dapr.io/config: "auth"
+        dapr.io/log-level: "debug"
+        #dapr.io/sidecar-listen-addresses: "0.0.0.0"
     spec:
-      volumes:
-        - name: config
-          configMap: 
-            name: super-api-config
       securityContext:
         runAsUser: 10000
         runAsGroup: 13000
         runAsNonRoot: true
       containers:
         - name: super-api
-          image: gbaeke/superapi:0.2.0
+          image: ghcr.io/gbaeke/super:1.0.7
           securityContext:
             readOnlyRootFilesystem: true
             capabilities:
@@ -42,9 +45,8 @@ spec:
                   fieldPath: status.podIP
             - name: WELCOME
               value: "Hello from the Super API on AKS!!! IP is: $(IPADDRESS)"
-          volumeMounts:
-            - mountPath: /config
-              name: config           
+            - name: LOG
+              value: "true"       
           resources:
               requests:
                 memory: "64Mi"

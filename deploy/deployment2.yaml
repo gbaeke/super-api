@@ -1,18 +1,25 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: super-api-deployment
+  name: super-api-deployment2
   labels:
-    app: super-api
+    app: super-api2
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
-      app: super-api
+      app: super-api2
   template:
     metadata:
       labels:
-        app: super-api
+        app: super-api2
+      annotations:
+        dapr.io/enabled: "true"
+        dapr.io/app-id: "super-api2"
+        dapr.io/app-port: "8080"
+        #dapr.io/config: "auth"
+        dapr.io/log-level: "debug"
+        #dapr.io/sidecar-listen-addresses: "0.0.0.0"
     spec:
       securityContext:
         runAsUser: 10000
@@ -20,7 +27,7 @@ spec:
         runAsNonRoot: true
       containers:
         - name: super-api
-          image: gbaeke/superapi:0.1.0
+          image: ghcr.io/gbaeke/super:1.0.7
           securityContext:
             readOnlyRootFilesystem: true
             capabilities:
@@ -28,10 +35,18 @@ spec:
                 - all
           args: ["--port=8080"]
           ports:
-            - containerPort: 8080
+            - name: http
+              containerPort: 8080
+              protocol: TCP
           env:
+            - name: IPADDRESS
+              valueFrom:
+                fieldRef:
+                  fieldPath: status.podIP
             - name: WELCOME
-              value: "Hello from the Super API on KIND!!!"           
+              value: "Hello from the Super API on AKS!!! IP is: $(IPADDRESS)"
+            - name: LOG
+              value: "true"       
           resources:
               requests:
                 memory: "64Mi"
@@ -44,13 +59,13 @@ spec:
               path: /healthz
               port: 8080
             initialDelaySeconds: 5
-            periodSeconds: 5
+            periodSeconds: 15
           readinessProbe:
               httpGet:
                 path: /readyz
                 port: 8080
               initialDelaySeconds: 5
-              periodSeconds: 5
+              periodSeconds: 15
               
                 
                 

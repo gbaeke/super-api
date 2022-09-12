@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: debug
+  labels:
+    name: debug
+  annotations:
+    dapr.io/enabled: "true"
+    dapr.io/app-id: "debug"
+spec:
+  containers:
+  - name: debug
+    image: nginx
+    resources:
+      limits:
+        memory: "128Mi"
+        cpu: "500m"
+    ports:
+      - containerPort: 80
