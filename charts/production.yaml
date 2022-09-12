@@ -1,8 +1,8 @@
 imageKey:
-  repository: "mysuperapp"
-  pullPolicy: IfNotPresent
-  tag: "latest"
+    repository: acrgebadefault.azurecr.io/mysuperapp
+    pullPolicy: IfNotPresent
+    tag: latest
 service:
-  annotations: {}
-  type: LoadBalancer
-  port: 80
+    annotations: {}
+    type: LoadBalancer
+    port: "80"
